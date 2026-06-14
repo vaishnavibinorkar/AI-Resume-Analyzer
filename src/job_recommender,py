@@ -1,0 +1,49 @@
+import pdfplumber
+
+skills_db = [
+    "python",
+    "sql",
+    "machine learning",
+    "data analysis",
+    "pandas",
+    "numpy",
+    "excel",
+    "power bi"
+]
+
+pdf_path = "uploads/resume.pdf"
+
+text = ""
+
+with pdfplumber.open(pdf_path) as pdf:
+    for page in pdf.pages:
+        page_text = page.extract_text()
+        if page_text:
+            text += page_text.lower()
+
+found_skills = []
+
+for skill in skills_db:
+    if skill in text:
+        found_skills.append(skill)
+
+print("Skills Found:")
+for skill in found_skills:
+    print("-", skill)
+
+print("\nRecommended Jobs:")
+
+if "machine learning" in found_skills:
+    print("- Machine Learning Engineer")
+
+if "data analysis" in found_skills:
+    print("- Data Analyst")
+
+if "python" in found_skills:
+    print("- Python Developer")
+
+if "sql" in found_skills and "power bi" in found_skills:
+    print("- Business Intelligence Analyst")
+
+if "python" in found_skills and "machine learning" in found_skills:
+    print("- Data Scientist")
